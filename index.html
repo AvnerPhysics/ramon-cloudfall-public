@@ -19,7 +19,7 @@ footer{font-size:.88rem;color:#536a7a;margin-top:2rem}a{color:#075985}
 <p class="signal" id="status-live">האתר בהקמה — עדיין אין כאן התראות נסיעה פעילות.</p>
 <p>המערכת המטאורולוגית פועלת בנפרד. חיבור הנתונים הציבורי נמצא בהכנה; בשלב זה אין להסתמך על הדף לצורך תכנון נסיעה.</p>
 <p class="muted">עדכון אתר: 2 בנובמבר 2026 · אין תאריך תחזית פעיל.</p></section>
-<section><h2>כיצד ייראו ההתראות?</h2>
+<section><h2>תחזית ל־48 השעות הקרובות</h2><div id="forecast-48h"><p class="muted">התחזית טרם פורסמה, או שהנתונים אינם עדכניים. אין המלצה לנסיעה מיוחדת.</p></div><p class="muted">אלו סימנים מטאורולוגיים בלבד, לא הסתברות מדודה לגלישה. בכל מקרה אין המלצת יציאה אוטומטית.</p></section><section><h2>כיצד ייראו ההתראות?</h2>
 <ul><li><strong>כדאי לעקוב:</strong> תנאים שעשויים להתפתח ב־24–48 השעות הקרובות; אין הצדקה לנסיעה מיוחדת.</li>
 <li><strong>כדאי להיערך:</strong> חלון מבטיח יחסית; מומלץ להתכונן ולעקוב אחר עדכון נוסף לפני נסיעה ארוכה.</li>
 <li><strong>אפשר לשקול נסיעה:</strong> הודעה מפורשת בלבד, לאחר שילוב תחזיות ועדויות זמינות. אין הבטחה להצלחת התצפית.</li></ul></section>
@@ -29,5 +29,20 @@ footer{font-size:.88rem;color:#536a7a;margin-top:2rem}a{color:#075985}
 fetch('./status.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(d=>{
  if(d && typeof d.message==='string' && d.message.length<200)
  document.getElementById('status-live').textContent=d.message;
+ if (d.state === 'experimental' && Array.isArray(d.outlook_48h) && d.outlook_48h.length) {
+   const root = document.getElementById('forecast-48h');
+   root.replaceChildren();
+   for (const item of d.outlook_48h.slice(0,3)) {
+     const card = document.createElement('div');
+     const heading = document.createElement('strong');
+     heading.textContent = /^\\d{4}-\\d{2}-\\d{2}$/.test(item.date) ? item.date : 'חלון תחזית';
+     const description = document.createElement('p');
+     description.textContent = String(item.message || 'אין מידע מספק');
+     const advice = document.createElement('p');
+     advice.textContent = 'נסיעה: ' + String(item.travel_advice || 'אין המלצת נסיעה');
+     card.append(heading,description,advice);
+     root.append(card);
+   }
+ }
 }).catch(()=>{});
 </script></body></html>
