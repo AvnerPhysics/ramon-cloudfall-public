@@ -35,7 +35,7 @@ fetch('./status.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(d=>{
    for (const item of d.outlook_48h.slice(0,3)) {
      const card = document.createElement('div');
      const heading = document.createElement('strong');
-     heading.textContent = /^\\d{4}-\\d{2}-\\d{2}$/.test(item.date) ? item.date : 'חלון תחזית';
+     heading.textContent = /^\d{4}-\d{2}-\d{2}$/.test(item.date) ? item.date : 'חלון תחזית';
      const description = document.createElement('p');
      description.textContent = String(item.message || 'אין מידע מספק');
      const advice = document.createElement('p');
