@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "state": "setup",
+  "message": "מערכת ההתראות הציבורית בהקמה. אין כרגע המלצת נסיעה.",
+  "updated_israel": null,
+  "travel_advice": "none",
+  "automated": false
+}
