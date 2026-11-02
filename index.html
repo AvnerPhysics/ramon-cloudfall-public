@@ -16,7 +16,7 @@ footer{font-size:.88rem;color:#536a7a;margin-top:2rem}a{color:#075985}
 <h1>גלישת עננים במכתש רמון</h1><p>תחזית ניסיונית למטיילים ולצלמים, בשפה פשוטה ובזהירות המתבקשת.</p></header>
 <main>
 <section aria-labelledby="status"><h2 id="status">מצב השירות</h2>
-<p class="signal">האתר בהקמה — עדיין אין כאן התראות נסיעה פעילות.</p>
+<p class="signal" id="status-live">האתר בהקמה — עדיין אין כאן התראות נסיעה פעילות.</p>
 <p>המערכת המטאורולוגית פועלת בנפרד. חיבור הנתונים הציבורי נמצא בהכנה; בשלב זה אין להסתמך על הדף לצורך תכנון נסיעה.</p>
 <p class="muted">עדכון אתר: 2 בנובמבר 2026 · אין תאריך תחזית פעיל.</p></section>
 <section><h2>כיצד ייראו ההתראות?</h2>
@@ -25,4 +25,9 @@ footer{font-size:.88rem;color:#536a7a;margin-top:2rem}a{color:#075985}
 <li><strong>אפשר לשקול נסיעה:</strong> הודעה מפורשת בלבד, לאחר שילוב תחזיות ועדויות זמינות. אין הבטחה להצלחת התצפית.</li></ul></section>
 <section><h2>חשוב לדעת</h2><p>ערפל באזור הר הנגב אינו בהכרח גלישת עננים לתוך המכתש. גם אירוע שזוהה כבעל פוטנציאל עשוי שלא להתרחש. ציוני המודלים אינם הסתברויות הצלחה מדודות. בדקו תמיד מזג אוויר, דרכים והנחיות בטיחות לפני היציאה.</p></section>
 </main><footer>פרויקט עצמאי וניסיוני · ללא תשלום · לא שירות מטאורולוגי רשמי.</footer>
-</div></body></html>
+</div><script>
+fetch('./status.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(d=>{
+ if(d && typeof d.message==='string' && d.message.length<200)
+ document.getElementById('status-live').textContent=d.message;
+}).catch(()=>{});
+</script></body></html>
